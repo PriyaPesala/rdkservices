@@ -139,6 +139,7 @@ uint32_t L2testController::PerformL2Tests(JsonObject &params, JsonObject &result
     //assert(results != nullptr);
     std::cout<<"Before results"<<std::endl;
     results = JsonObject();
+    std::cout<<"results : "<<JsonObject()<<std::endl;
     std::cout<<"After results"<<std::endl;
     status = jsonrpc.Invoke<JsonObject, JsonObject>(TEST_COMPLETION_TIMEOUT, std::string(_T("PerformL2Tests")), params, results);
     std::cout<<"status : "<<status<<std::endl;
