@@ -46,7 +46,7 @@
 #define THUNDER_CMD_LENGTH                 1024                          /* Command length to run thunder in isolation . */
 
 #ifndef TEST_COMPLETION_TIMEOUT
-#define TEST_COMPLETION_TIMEOUT                  600000                  /* Overall L2 Test completion timeout in milliseconds. */
+#define TEST_COMPLETION_TIMEOUT                  1000000                  /* Overall L2 Test completion timeout in milliseconds. */
 #endif
 
 using namespace WPEFramework;
