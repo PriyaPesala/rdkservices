@@ -26,7 +26,7 @@
 #define API_VERSION_NUMBER_MAJOR 1
 #define API_VERSION_NUMBER_MINOR 0
 #define API_VERSION_NUMBER_PATCH 0
-
+#define TEST_LOG(x, ...) fprintf(stderr, "\033[1;32m[%s:%d](%s)<PID:%d><TID:%d>" x "\n\033[0m", __FILE__, __LINE__, __FUNCTION__, getpid(), gettid(), ##__VA_ARGS__); fflush(stderr);
 using namespace WPEFramework;
 
 // TODO: remove this
@@ -77,18 +77,21 @@ namespace WPEFramework
         uint32_t L2Tests::PerformL2Tests(const JsonObject& parameters, JsonObject& response)
         {
             uint32_t status;
-
+            TEST_LOG("Entering into PerformL2Tests");
             /* Options are passed in params if user wants to set gtest filter to run specific suite */
             if(parameters.HasLabel("test_suite_list"))
             {
+                TEST_LOG("Entering into if");
                 const std::string &message = parameters["test_suite_list"].String();
                 LOGINFO("Paramaters passed for gtest filter: :%s\n",
                         message.c_str());
                ::testing::GTEST_FLAG(filter) = message;
             }
+            TEST_LOG("After if");
             status = RUN_ALL_TESTS();
+            TEST_LOG("After test run");
             LOGINFO("Completed running L2 tests and running status = %d\n",status);
-
+            TEST_LOG("After assigning value for status");
             return status;
         }
     }
