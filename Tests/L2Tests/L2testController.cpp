@@ -131,14 +131,17 @@ uint32_t L2testController::PerformL2Tests(JsonObject &params, JsonObject &result
     std::string message;
     std::string reply;
     uint32_t status = Core::ERROR_GENERAL;
-
+    std::cout<<"status : "<<status<<std::endl;
+	assert(params != nullptr);
     params.ToString(message);
+    std::cout<<"params : "<<params.ToString(message)<<std::endl;
     L2TEST_LOG("Invoking %s.parameters %s", L2TEST_CALLSIGN, message.c_str());
-
+    assert(results != nullptr);
     results = JsonObject();
     status = jsonrpc.Invoke<JsonObject, JsonObject>(TEST_COMPLETION_TIMEOUT, std::string(_T("PerformL2Tests")), params, results);
-
+    std::cout<<"status : "<<status<<std::endl;
     results.ToString(reply);
+    std::cout<<"results : "<<results.ToString(reply)<<std::endl;
     L2TEST_LOG("Status %u, results %s", status, reply.c_str());
 
     return status;
