@@ -136,6 +136,7 @@ uint32_t L2testController::PerformL2Tests(JsonObject &params, JsonObject &result
     params.ToString(message);
     std::cout<<"params : "<<params.ToString(message)<<std::endl;
     L2TEST_LOG("Invoking %s.parameters %s", L2TEST_CALLSIGN, message.c_str());
+    std::cout<<"params_1 : "<<params.ToString()<<std::endl;
     //assert(results != nullptr);
     std::cout<<"Before results"<<std::endl;
     results = JsonObject();
@@ -144,6 +145,7 @@ uint32_t L2testController::PerformL2Tests(JsonObject &params, JsonObject &result
     std::cout<<"status : "<<status<<std::endl;
     results.ToString(reply);
     std::cout<<"results : "<<results.ToString(reply)<<std::endl;
+    std::cout<<"results_1 : "<<results.ToString()<<std::endl;
     L2TEST_LOG("Status %u, results %s", status, reply.c_str());
 
     return status;
