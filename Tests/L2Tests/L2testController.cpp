@@ -130,22 +130,27 @@ uint32_t L2testController::PerformL2Tests(JsonObject &params, JsonObject &result
     JSONRPC::LinkType<Core::JSON::IElement> jsonrpc(std::string(L2TEST_CALLSIGN), TEST_CALLSIGN);
     std::string message;
     std::string reply;
-    std::cout<<"message : "<<message<<std::endl;
-    std::cout<<"reply : "<<reply<<std::endl;
     uint32_t status = Core::ERROR_GENERAL;
-    std::cout<<"status : "<<status<<std::endl;
+    fprintf(stdout, "status : %d\n", status);
+    fflush(stdout);
 	//Assert(params != nullptr);
     params.ToString(message);
-    std::cout<<"params : "<<params.ToString(message)<<std::endl;
+    fprintf(stdout, "params : %d\n", params.ToString(message));
+    fflush(stdout);
+    //std::cout<<"params : "<<params.ToString(message)<<std::endl;
     L2TEST_LOG("Invoking %s.parameters %s", L2TEST_CALLSIGN, message.c_str());
     //assert(results != nullptr);
-    std::cout<<"Before results"<<std::endl;
+    fprintf(stdout, "Before results \n");
+    fflush(stdout);
     results = JsonObject();
-    std::cout<<"After results"<<std::endl;
+    fprintf(stdout, "After results \n");
+    fflush(stdout);
     status = jsonrpc.Invoke<JsonObject, JsonObject>(TEST_COMPLETION_TIMEOUT, std::string(_T("PerformL2Tests")), params, results);
-    std::cout<<"status : "<<status<<std::endl;
+    fprintf(stdout, "status : %d\n", status);
+    fflush(stdout);
     results.ToString(reply);
-    std::cout<<"results : "<<results.ToString(reply)<<std::endl;
+    fprintf(stdout, "results : %d\n", results.ToString(reply));
+    fflush(stdout);
     L2TEST_LOG("Status %u, results %s", status, reply.c_str());
 
     return status;
@@ -302,4 +307,3 @@ int main(int argc, char **argv)
     return return_status;
 
 }
-

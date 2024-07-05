@@ -77,21 +77,26 @@ namespace WPEFramework
         uint32_t L2Tests::PerformL2Tests(const JsonObject& parameters, JsonObject& response)
         {
             uint32_t status;
-            TEST_LOG("Entering into PerformL2Tests");
+            fprintf(stdout, "Entering into PerformL2Tests\n");
+            fflush(stdout);
             /* Options are passed in params if user wants to set gtest filter to run specific suite */
             if(parameters.HasLabel("test_suite_list"))
             {
-                TEST_LOG("Entering into if");
+				fprintf(stdout, "Entering into if\n");
+                fflush(stdout);
                 const std::string &message = parameters["test_suite_list"].String();
                 LOGINFO("Paramaters passed for gtest filter: :%s\n",
                         message.c_str());
                ::testing::GTEST_FLAG(filter) = message;
             }
-            TEST_LOG("After if");
+            fprintf(stdout, "After if\n");
+            fflush(stdout);
             status = RUN_ALL_TESTS();
-            TEST_LOG("After test run");
+            fprintf(stdout, "After test run\n");
+            fflush(stdout);
             LOGINFO("Completed running L2 tests and running status = %d\n",status);
-            TEST_LOG("After assigning value for status");
+            fprintf(stdout, "After assigning value for status\n");
+            fflush(stdout);
             return status;
         }
     }

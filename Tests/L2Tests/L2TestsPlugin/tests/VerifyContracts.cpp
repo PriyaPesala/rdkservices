@@ -52,6 +52,8 @@ CTVerifier_Test::~CTVerifier_Test()
 
 void CTVerifier_Test::activateAllPlugins()
 {
+	fprintf(stdout, "Starting of activateAllPlugins\n");
+    fflush(stdout);
     createDeviceFiles();
     /* Activate all plugins */
     for (vector<string>::iterator i = vtrPlugins.begin(); i != vtrPlugins.end(); i++)
@@ -61,10 +63,14 @@ void CTVerifier_Test::activateAllPlugins()
         EXPECT_EQ(Core::ERROR_NONE, status);
     }
     enableTTS();
+	fprintf(stdout, "ending of activateAllPlugins\n");
+    fflush(stdout);
 }
 
 void CTVerifier_Test::deactivateAllPlugins()
 {
+	fprintf(stdout, "Deactivating of AllPlugins\n");
+    fflush(stdout);
     /* Deactivate all plugins */
     for (vector<string>::iterator i = vtrPlugins.begin(); i != vtrPlugins.end(); i++)
     {
@@ -72,6 +78,8 @@ void CTVerifier_Test::deactivateAllPlugins()
         uint32_t status = DeactivateService((*i).c_str());
         EXPECT_EQ(Core::ERROR_NONE, status);
     }
+	fprintf(stdout, "Deactivating of AllPlugins_1\n");
+    fflush(stdout);
 }
 
 /* Contract test verification test class declaration */
@@ -181,6 +189,8 @@ class CTVerifierMain : public CTVerifier_CallMocks {
 
 TEST_F(CTVerifierMain, VerifyContractsOnAllPlugins)
 {
+	fprintf(stdout, "VerifyContractsOnAllPlugins\n");
+    fflush(stdout);
     char const *pact_token = getenv("PACTFLOW_TOKEN");
     string pact_token_str = "";
     if (pact_token == NULL)
@@ -192,7 +202,8 @@ TEST_F(CTVerifierMain, VerifyContractsOnAllPlugins)
         std::string s(pact_token);
         pact_token_str = s;
     }
-
+    fprintf(stdout, "VerifyContractsOnAllPlugins before calling activateAllPlugins\n");
+    fflush(stdout);
     if(pact_token_str.empty())
     {
         cout << "PACTFLOW_TOKEN is empty, don't run contract tests\n";
@@ -200,7 +211,8 @@ TEST_F(CTVerifierMain, VerifyContractsOnAllPlugins)
     }
 
     activateAllPlugins();
-
+    fprintf(stdout, "VerifyContractsOnAllPlugins after calling activateAllPlugins\n");
+    fflush(stdout);
     //get short hash from long hash in GITHUB_SHA
     string git_hash_str = "";
     char const *l_hash = getenv("GITHUB_SHA");
@@ -234,9 +246,11 @@ TEST_F(CTVerifierMain, VerifyContractsOnAllPlugins)
     int stat = system(pact_verify_cmd.c_str());
     cout << "pact_verify_cmd stat: " << stat << "\n";
     //EXPECT_GE(stat, 0);
-
+    fprintf(stdout, "VerifyContractsOnAllPlugins before calling deactivateAllPlugins\n");
+    fflush(stdout);
     deactivateAllPlugins();
-
+    fprintf(stdout, "VerifyContractsOnAllPlugins after calling deactivateAllPlugins\n");
+    fflush(stdout);
 
     //Parse the contract-test-results.json file and check if all the tests passed
     parseContractTestResults(git_hash_str);
