@@ -66,6 +66,12 @@ jobs:
           repository: rdkcentral/Thunder
           path: Thunder
           ref: ${{env.THUNDER_REF}}
+      - name: Apply patch Thunder
+        run: |
+              cd Thunder
+              echo "Current branch is: $(git branch --show-current)"
+              patch -p1 < ${{github.workspace}}/rdkservices/Tests/L2Tests/patches/crash_debug_callstack_R4_4.patch
+              cd ..
 
       - name: Checkout ThunderTools
         if: steps.cache.outputs.cache-hit != 'true'
@@ -205,7 +211,8 @@ jobs:
           -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/install/usr"
           -DCMAKE_MODULE_PATH="${{github.workspace}}/install/tools/cmake"
           -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-          -DCMAKE_CXX_FLAGS="-fPIC"
+          -DCMAKE_CXX_FLAGS="-fPIC
+          -I $GITHUB_WORKSPACE/rdkservices/Tests/headers"
           &&
           cmake --build build/mocks -j8
           &&
