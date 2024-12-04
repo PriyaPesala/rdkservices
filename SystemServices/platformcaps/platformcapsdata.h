@@ -205,16 +205,39 @@ private:
         auto resp = dispatcher_->Invoke("", channelId, *message);
 #endif
 
+#if ((THUNDER_VERSION >= 4) && (THUNDER_VERSION_MINOR == 4))
+
+        if (message->Error.IsSet()) {
+
+          std::cout << "Call failed: " << message->Designator.Value() << " error: " << message->Error.Text.Value() << "\n";
+
+          return message->Error.Code;
+
+        }
+
+        if (!FromMessage(response, message, isResponseString))
+
+          return Core::ERROR_GENERAL;
+
+#else
+
 #if ((THUNDER_VERSION == 2) || (THUNDER_VERSION >= 4) && (THUNDER_VERSION_MINOR == 2))
 
         if (resp->Error.IsSet()) {
+
           std::cout << "Call failed: " << message->Designator.Value() << " error: " << resp->Error.Text.Value() << "\n";
+
           return resp->Error.Code;
+
         }
 
         if (!FromMessage(response, resp, isResponseString))
+
           return Core::ERROR_GENERAL;
-#endif
+
+#endif /* ((THUNDER_VERSION == 2) || (THUNDER_VERSION >= 4) && (THUNDER_VERSION_MINOR == 2)) */
+
+#endif /* ((THUNDER_VERSION >= 4) && (THUNDER_VERSION_MINOR == 4)) */
         return Core::ERROR_NONE;
       }
     };
